@@ -1,0 +1,8 @@
+#!/bin/bash
+. /usr/local/anaconda/ini_python-anaconda.sh
+conda create -n EJE3
+echo y
+source activate EJE3
+conda install jupyter
+echo y
+jupyter notebook

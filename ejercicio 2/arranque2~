@@ -1,0 +1,5 @@
+#!/bin/bash
+. /usr/local/anaconda/ini_python-anaconda.sh
+source activate EJE2
+conda install pandas
+conda install matplotlib
