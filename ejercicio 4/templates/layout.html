@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }} - Practica 4 MD</title>
+     <!--<link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />-->
+    <!--<link rel="stylesheet" type="text/css" href="/static/content/site.css" />-->
+    <meta name="keywords" content="form, minimal, interface, single input, big form, responsive form, transition" />
+    <link rel="stylesheet" type="text/css" href="/static/css/normalize.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/demo.css" />
+    <link rel="stylesheet" type="text/css" href="/static/css/component.css" />
+    <script src="/static/js/modernizr.custom.js"></script>
+</head>
+
+<body>
+
+    <!-- Top Navigation -->
+    <div class="codrops-top clearfix">
+        <a class="codrops-icon codrops-icon-prev"  href="{{ url_for('entrenamiento') }}"><span>Entrenamiento</span></a>
+        <span class="right"><a class="codrops-icon codrops-icon-drop"  href="{{ url_for('autenticacion') }}"><span>Autenticacion</span></a></span>
+    </div>
+    <header class="codrops-header">
+        <h1>{{ title }}<span>{{ message }}</span></h1> 
+    </header>
+    <!-- Cuerpo -->
+    <div class="container body-content">
+        {% block content %}{% endblock %}
+        <hr />
+        <footer>
+            <p>&copy; {{ year }} - Practica 4 MD</p>
+        </footer>
+    </div>
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>
