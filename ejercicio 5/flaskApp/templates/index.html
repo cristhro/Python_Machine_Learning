@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<input  type="text" id="id_palabra"  name="palabra" placeholder="Buscar..." />
+<br>
+<br>
+<div id="resultado">
+    <ul class="mylist">
+
+    </ul>
+</div>
+
+</body>
+<script src="https://code.jquery.com/jquery-2.1.1.min.js" type="text/javascript"></script>
+<script>
+    $(document).ready(function(){
+
+        $("#id_palabra").keyup(function() {
+            $.ajax({
+                type: "POST",
+                url: "/buscar",
+                data: 'buscado=' + $(this).val(),
+                success: function (data) {
+                    console.log("Correcto " + data.resultado);
+                    var lista_resultado = data.resultado;
+                    var cList = $('ul.mylist')
+
+                    // Eliminamos las etiquetas li
+                    $('ul.mylist li').remove();
+
+                    // Recorremos la lista resultado
+                    $.each(lista_resultado, function(i) {
+                        var li = $('<li/>')
+                            .addClass('ui-menu-item')
+                            .attr('role', 'menuitem')
+                            .appendTo(cList);
+                        var a = $('<a/>')
+                            .addClass('ui-all')
+                            .text( 'Title: ' + this.Title + '   PLOT---->' + this.Plot )
+                            .appendTo(li);
+                    });
+                }
+            });
+        });
+    });
+</script>
+</html>
