@@ -36,12 +36,13 @@
                     $.each(lista_resultado, function(i) {
                         var li = $('<li/>')
                             .addClass('ui-menu-item')
-                            .attr('role', 'menuitem')
-                            .appendTo(cList);
-                        var a = $('<a/>')
-                            .addClass('ui-all')
-                            .text( 'Title: ' + this.Title + '   PLOT---->' + this.Plot )
-                            .appendTo(li);
+                            .attr('role', 'menuitem');
+                        li.append(this.Title);
+                        li.append(this.Plot);
+                        cList.append(li);
+                            // .addClass('ui-all')
+                            // .text( 'Title: ' + this.Title + '   PLOT---->' + this.Plot )
+                            // .appendTo(li);
                     });
                 }
             });
