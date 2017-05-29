@@ -27,8 +27,14 @@ def realizar_busqueda_2(buscado):
                 "Title": {
                     "query": buscado,
                     "fuzziness": "AUTO",
+                    "boost" :         2.0,
+                    "prefix_length" : 1,
+                    "max_expansions": 100,
+                    #"minimum_should_match" : 10,
+                    
                     "operator": "and"
                 }
+                
             }
         },
         "highlight": {
@@ -77,6 +83,143 @@ def realizar_busqueda(buscado):
     resultado = []
     for hit in res['hits']['hits']:
         resultado.append("%(Title)s" % hit["_source"])
+
+    return resultado
+def realizar_busqueda_3(buscado):
+    bodyQuery = {
+		"query": {
+		   "regexp":{
+				"Title": buscado +".*"
+			}
+		},
+		"highlight": {
+            "fields": {
+                "Title": {},
+                "Plot": {"fragment_size": 300, "number_of_fragments": 3},
+                "Director": {}
+            },
+            # Permite el hightlight sobre campos que no se han hecho query
+            # como Plot en este ejemplo
+            "require_field_match": False
+		}
+    }
+
+    res = es.search(index="prueba-index", body= bodyQuery)
+    print("Got %d Hits:" % res['hits']['total'])
+
+    resultado = []
+    for hit in res['hits']['hits']:
+        resultado.append(hit['highlight'])
+
+    return resultado
+def realizar_busqueda_4(buscado):
+    bodyQuery2 = {
+		"query": {
+        "bool": {
+        "should": [
+         {   "match": {
+                "Title": {
+                    "query": buscado + ".*",
+                    "fuzziness": "AUTO",
+					"prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+         {   "match": {
+                "Plot": {
+                        "query": buscado,
+                        "fuzziness": 2,
+						"prefix_length" : 1,
+						"operator": "and"
+                    }
+            }
+         },
+         {   "match": {
+                "Genres": {
+                    "query": buscado,
+                    "fuzziness": "AUTO",
+					"prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+          {   "match": {
+                "Director": {
+                    "query": buscado,
+                    "fuzziness": "AUTO",
+					"prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+           {   "match": {
+                "Writer": {
+                    "query": buscado,
+                    "fuzziness": "AUTO",
+					"prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+           {   "match": {
+                "Cast": {
+                    "query": buscado,
+                    "fuzziness": "AUTO",
+					"prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+            {   "match": {
+                "Country": {
+                    "query": buscado,
+                    "fuzziness": "AUTO",
+					"prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+            {   "match": {
+                "Language": {
+                    "query": buscado,
+                    "fuzziness": "AUTO",
+                    "prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+            {   "match": {
+                "Rating": {
+                    "query": buscado,
+                    "fuzziness": "AUTO",
+					"prefix_length" : 1,
+					"operator": "and"
+                    
+                }
+            }},
+         
+         ]
+        }
+    },
+     "highlight": {
+            "fields": {
+                "Title": {},
+                "Plot": {},
+                "Director": {}
+            },
+            # Permite el hightlight sobre campos que no se han hecho query
+            # como Plot en este ejemplo
+            "require_field_match": False
+    }
+    }
+
+    res = es.search(index="prueba-index", body= bodyQuery)
+    print("Got %d Hits:" % res['hits']['total'])
+
+    resultado = []
+    for hit in res['hits']['hits']:
+        resultado.append(hit['highlight'])
 
     return resultado
 if __name__ == '__main__':
